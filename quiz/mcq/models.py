@@ -22,7 +22,7 @@ class Category(basemodel):
    
 
 class Question(basemodel):
-    category = models.ForeignKey(Category , related_name= 'category1',on_delete= models.CASCADE)
+    category = models.ForeignKey(Category , related_name= 'category1' ,on_delete= models.CASCADE)
     question = models.CharField(max_length=100)
     marks = models.IntegerField(default=2)
 

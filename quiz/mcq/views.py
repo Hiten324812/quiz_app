@@ -67,10 +67,12 @@ def question_list(request):
 
 
 
+
 def calculate_marks(request):
     if request.method == 'POST':
         question_uids = [key.split('_')[1] for key in request.POST.keys() if key.startswith('question_')]
         total_marks = 0
+        paper_marks = 0
 
         for question_uid in question_uids:
             selected_answer_uid = request.POST.get(f'question_{question_uid}')
@@ -78,7 +80,11 @@ def calculate_marks(request):
 
             if selected_answer.is_correct:
                 total_marks += selected_answer.questions.marks
+                paper_marks += selected_answer.questions.marks
+            else:
+               paper_marks += selected_answer.questions.marks    
+            
 
-        return render(request, 'result.html', { 'marks': total_marks})
- 
+        return render(request, 'question_list.html', {'questions': Question.objects.all(), 'marks': total_marks , 'paper_marks' : paper_marks})
+
     return redirect(reverse('question_list'))
